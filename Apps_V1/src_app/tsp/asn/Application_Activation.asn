@@ -1,0 +1,36 @@
+ApplicationActivation DEFINITIONS AUTOMATIC TAGS ::= BEGIN
+-- 其他定义内容
+
+VinCode ::= IA5String (SIZE(17))
+Iccid ::= IA5String (SIZE(20))
+SimInfo ::= IA5String (SIZE(19))
+
+-- MID 10 - OTA_NewPubKeyReq
+OtaNewPubKeyReq ::= SEQUENCE {
+    vinCode  VinCode,
+    iccid    Iccid,
+    simInfo  SimInfo
+}
+
+-- MID 11 - OTA_NewPubKeyRes
+PublicKeyGranted ::= BOOLEAN
+PublicKey ::= OCTET STRING (SIZE(64))
+
+OtaNewPubKeyRes ::= SEQUENCE {
+    publicKeyGranted  PublicKeyGranted,
+    publicKey         PublicKey OPTIONAL
+}
+
+SecKeyAndTboxSn ::= OCTET STRING (SIZE(64))
+OtaNewSecKeyReq ::= SEQUENCE {
+    secKeyAndTboxSn SecKeyAndTboxSn
+}
+
+SecKeyReq ::= BOOLEAN
+TboxID ::= OCTET STRING (SIZE(12))
+OtaNewSecKeyRes ::= SEQUENCE {
+    secKeyReq  SecKeyReq,
+    tboxID     TboxID OPTIONAL
+}
+
+END

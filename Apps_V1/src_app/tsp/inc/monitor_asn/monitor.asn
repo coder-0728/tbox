@@ -1,0 +1,53 @@
+-- TSPMONITORMESSAGEPROTOCOL.asn
+-- ASN.1 file for TSP RVSVEHICLEALERT Message Protocol using PER
+
+-- Import any necessary modules here (if applicable)
+
+MONITOR DEFINITIONS ::= BEGIN
+
+-- Define the RVSWGS84POINT structure using PER
+RVSWGS84POINT ::= SEQUENCE {
+    latitude    INTEGER (-900000000..900000000),   -- (-90.0..90.0) in degrees
+    longitude   INTEGER (-1800000000..1800000000), -- (-180.0..180.0) in degrees
+    altitude    INTEGER (-1000..8900)             -- (-1000.0..8900.0) in meters
+}
+
+-- Define the RVSWAYPOINT structure using PER
+RVSWAYPOINT ::= SEQUENCE {
+    position    RVSWGS84POINT,
+    heading     INTEGER (0..359),
+    speed       INTEGER (-1000..4500),
+    hdop        INTEGER (0..1000),
+    satellites  INTEGER (0..16)
+}
+
+-- Define the GPS Status ENUMERATED
+--GPSStatus ::= ENUMERATED {
+--    CeRVSNoGpsSignal,
+--   CeRVSTimeFix,
+--    CeRVSFix2D,
+--    CeRVSFix3D
+--}
+
+-- Define the RVSPOSITION structure using PER
+RVSPOSITION ::= SEQUENCE {
+    wayPoint    RVSWAYPOINT,
+    timeStamp   INTEGER (0..2147483647),
+    gpsStatus   INTEGER (0..3)
+}
+
+-- Define the Alert ID BIT STRING
+AlertIdBitmap ::= OCTET STRING (SIZE (8))   -- Since there are 64 possible alert IDs, we use 8 bytes for the bitmap.
+
+-- Define the Alert Data OCTET STRING with length 1 to 64
+AlertData ::= OCTET STRING (SIZE(1..64))
+
+-- Define the RVSVEHICLEALERT structure using PER
+RVSVEHICLEALERT ::= SEQUENCE {
+    alertTime       INTEGER (0..4294967295),
+    gpsPosition     RVSPOSITION,
+    alertIdBitmap   AlertIdBitmap,   -- Alert ID 位比特映射，最多可容纳 8X8=64 个 Alert，顺序对应 1~64 个 AlertID
+    alertData       AlertData        -- Variable length alert data
+}
+
+END

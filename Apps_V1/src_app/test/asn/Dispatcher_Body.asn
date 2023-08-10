@@ -1,0 +1,52 @@
+DispatcherBody DEFINITIONS AUTOMATIC TAGS ::= BEGIN
+-- 其他定义内容
+
+-- 定义类型：Application ID 
+ApplicationId ::= IA5String (SIZE(3))
+
+MessageId ::= INTEGER (0..255)
+
+EventCreationTime ::= INTEGER (0..2147483647)
+
+EventID ::= INTEGER (0..2147483647)
+
+UlMessageCounter ::= INTEGER (0..65535)
+
+DlMessageCounter ::= INTEGER (0..65535)
+
+AckMessageCounter ::= INTEGER (0..65535)
+
+AckRequired ::= BOOLEAN
+
+ApplicationDataLength ::= INTEGER (0..65535)
+
+DataEncodingType ::= ENUMERATED {
+    asn1PER (0),
+    asn1DER (1),
+    asn1BER (2)
+}
+
+ApplicationDataProtocolVersion ::= INTEGER (0..65535)
+
+TestFlag ::= INTEGER (1..3)
+
+Result ::= INTEGER (0..65535)
+
+-- 定义Dispatcher消息头
+DispatcherBody ::= SEQUENCE {
+    applicationId      ApplicationId,
+    messageId          MessageId,
+    eventCreationTime  EventCreationTime,
+    eventID            EventID OPTIONAL,
+    ulMessageCounter   UlMessageCounter  OPTIONAL,
+    dlMessageCounter   DlMessageCounter  OPTIONAL,
+    ackMessageCounter  AckMessageCounter OPTIONAL,
+    ackRequired        AckRequired       OPTIONAL,
+    applicationDataLength ApplicationDataLength OPTIONAL,
+    dataEncodingType   DataEncodingType  OPTIONAL,
+    applicationDataProtocolVersion ApplicationDataProtocolVersion OPTIONAL,
+    testFlag           TestFlag          OPTIONAL,
+    result             Result            OPTIONAL
+}
+
+END
